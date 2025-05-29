@@ -5,7 +5,8 @@
 
 from PIL import Image
 import matplotlib.pyplot as plt
-from escpos.printer import Serial
+from escpos import *
+# from escpos.capabilities import get_profile
 import json
 import base64
 import numpy as np
@@ -66,51 +67,35 @@ def printProfileDev(data):
 
 
 def printProfile(data):
+    # print(get_profile('TM-T88III').profile_data)
 
-    print(type(data.main))
-    print(type(data.second))
-    print(type(data.timestamp))
-
-
-    p = Serial(devfile=setting['serial_com_port'],
-              width=setting['image_size'],
-              baudrate=19200,
+    p = printer.Serial(devfile=setting['serial_com_port'],
+              baudrate=38400,
               bytesize=8,
               parity='N',
               stopbits=1,
               timeout=1.00,
-              dsrdtr=True)
-
-    p.text('------------------------------------------\n')
-    p.text('\n')
-    p.text('UAL Logo')
-    p.text('\n')
-    p.text('------------------------------------------\n')
+              dsrdtr=True,
+              profile="TM-T88III")
+    
+    p.image('.\\assets\\images\\ual_logo.png')
     p.text('\n')
     p.image(data.main)
     p.text('\n')
-    p.text('------------------------------------------\n')
-    p.text('\n')
     p.image(data.second)
     p.text('\n')
-    p.text('------------------------------------------\n')
-    p.text(data.timestamp)
-    p.text('\n')
-    p.text('-------------------------------------------\n')
+    p.set(align='center')
+    p.textln(data.timestamp)
     p.text('\n')
     p.set(bold=True)
-    p.text('This is some title text')
+    p.textln('This is some title text')
+    p.text('\n')
     p.set(bold=False)
-    p.text('\n')
-    p.text('-------------------------------------------\n')
-    p.text('\n')
-    p.text(bodyText)
-    p.text('\n')
-    p.text('------------------------------------------\n')
-    p.text('\n')
+    p.text(bodyText+'\n')
     p.qr('https://www.arts.ac.uk/ual', center=True, size=6)
-
+    
     p.cut()
+
 
 def resize_and_rotate_image(image):
 
@@ -171,4 +156,4 @@ if __name__ == "__main__":
   
   user_data = load_user_data_from_json(json_data)
   
-  printProfileDev(user_data)
+  printProfile(user_data)

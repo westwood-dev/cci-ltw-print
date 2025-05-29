@@ -1,4 +1,4 @@
 pillow
 matplotlib
-escpos
+python-escpos
 flask
