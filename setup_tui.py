@@ -290,7 +290,7 @@ class PrintServerSetup:
         test_data = {
             "main": base64_test_image,
             "second": base64_test_image,
-            "body": "Test print from setup script",
+            "title": "Test print from setup script",
             "timestamp": datetime.now().isoformat()
         }
         

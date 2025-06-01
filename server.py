@@ -25,7 +25,7 @@ def process_and_print(data):
         print(f"Data written to {temp_file}")
         print(f"Main image: {len(data.get('main', ''))} characters")
         print(f"Second image: {len(data.get('second', ''))} characters")
-        print(f"Body text: {data.get('body', 'No body text')}")
+        print(f"Title: {data.get('title', 'Untitled')}")
         
         print("Starting print script...")
         result = subprocess.run(
@@ -64,12 +64,12 @@ def receive_data():
         
         main = data.get('main', '')
         second = data.get('second', '')
-        body = data.get('body', '')
+        title = data.get('title', 'Untitled')
         
         print(f"Main image: {'Present' if main else 'Missing'} ({len(main)} chars)")
         print(f"Second image: {'Present' if second else 'Missing'} ({len(second)} chars)")
-        print(f"Body text: {body if body else 'No body text'}")
-        
+        print(f"Title: {title if title else 'Untitled'}")
+
         response = jsonify({
             'success': True, 
             'message': 'Data received and queued for printing',

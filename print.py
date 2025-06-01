@@ -54,7 +54,7 @@ def printProfileDev(data):
     print('MAIN IMAGE:', data.main.size)
     print('SECOND IMAGE:', data.second.size)
     print('timestamp:', data.timestamp)
-    print('Title of work:', 'This is some title text')
+    print('Title of work:', data.title)
     print('BodyText:', format_text(bodyText))
     print('')
     print('------------------------------------------')
@@ -78,21 +78,24 @@ def printProfile(data):
               dsrdtr=True,
               profile="TM-T88III")
     
-    p.image('.\\assets\\images\\ual_logo.png')
+    p.image('.\\assets\\images\\ual-cci-logo.png')
     p.text('\n')
-    p.image(data.main)
+    if len(data.main) > 0:
+      p.image(data.main)
     p.text('\n')
-    p.image(data.second)
+    if len(data.second) > 0:
+      p.image(data.second)
     p.text('\n')
     p.set(align='center')
     p.textln(data.timestamp)
     p.text('\n')
     p.set(bold=True)
-    p.textln('This is some title text')
+    p.textln(data.title)
     p.text('\n')
-    p.set(bold=False)
-    p.text(bodyText+'\n')
-    p.qr('https://www.arts.ac.uk/ual', center=True, size=6)
+    p.set(bold=False, align='left')
+    p.text(format_text(bodyText)+'\n')
+    p.set(align='center')
+    p.qr('https://www.arts.ac.uk/ual', center=True, size=16)
     
     p.cut()
 
@@ -119,15 +122,15 @@ def load_user_data_from_json(json_data):
         base64_string = base64_string.split(",")[1]
       image_bytes = base64.b64decode(base64_string)
       data.images.append(resize_and_rotate_image(Image.open(io.BytesIO(image_bytes))))
-  
-  if hasattr(data, 'main'):
+
+  if hasattr(data, 'main') and len(data.main) > 0:
     base64_string = data.main
     if "data:image" in base64_string:
       base64_string = base64_string.split(",")[1]
     image_bytes = base64.b64decode(base64_string)
     data.main = resize_and_rotate_image(Image.open(io.BytesIO(image_bytes)))
 
-  if hasattr(data, 'second'):
+  if hasattr(data, 'second') and len(data.second) > 0:
     base64_string = data.second
     if "data:image" in base64_string:
       base64_string = base64_string.split(",")[1]
