@@ -80,11 +80,11 @@ def printProfile(data):
     
     p.image('.\\assets\\images\\ual-cci-logo.png')
     p.text('\n')
-    if len(data.main) > 0:
-      p.image(data.main)
+    # if len(data.main) > 0:
+    p.image(data.main)
     p.text('\n')
-    if len(data.second) > 0:
-      p.image(data.second)
+    # if len(data.second) > 0:
+    p.image(data.second)
     p.text('\n')
     p.set(align='center')
     p.textln(data.timestamp)
@@ -109,6 +109,12 @@ def resize_and_rotate_image(image):
     
     image = image.resize((max, int(max * image.size[1] / image.size[0])), Image.Resampling.BICUBIC)
     return image
+
+def resize_image(image):
+  max = setting['image_size']
+
+  image = image.resize((max, int(max * image.size[1] / image.size[0])), Image.Resampling.BICUBIC)
+  return image
 
 
 def load_user_data_from_json(json_data):
@@ -135,7 +141,7 @@ def load_user_data_from_json(json_data):
     if "data:image" in base64_string:
       base64_string = base64_string.split(",")[1]
     image_bytes = base64.b64decode(base64_string)
-    data.second = resize_and_rotate_image(Image.open(io.BytesIO(image_bytes)))
+    data.second = resize_image(Image.open(io.BytesIO(image_bytes)))
 
   return data
 
