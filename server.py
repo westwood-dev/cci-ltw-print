@@ -12,7 +12,10 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+isPrinting = False
+
 def process_and_print(data):
+    global isPrinting
     try:
         print(f"[{datetime.now()}] Processing print job...")
         
@@ -50,6 +53,9 @@ def process_and_print(data):
         print(f"Error in process_and_print: {e}")
         import traceback
         traceback.print_exc()
+    finally:
+        print(f"[{datetime.now()}] ========== END OF PRINT JOB ==========\n")
+        isPrinting = False
 
 @app.route('/api/data', methods=['POST'])
 def receive_data():
@@ -76,10 +82,13 @@ def receive_data():
             'timestamp': datetime.now().isoformat()
         })
         
-        print("Queuing print job for background processing...")
-        thread = threading.Thread(target=process_and_print, args=(data,))
-        thread.daemon = True
-        thread.start()
+        if isPrinting:
+            print("Print job already in progress, skipping...")
+        else:
+            print("Queuing print job for background processing...")
+            thread = threading.Thread(target=process_and_print, args=(data,))
+            thread.daemon = True
+            thread.start()
         
         return response, 200
         

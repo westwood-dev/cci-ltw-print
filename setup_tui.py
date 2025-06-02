@@ -346,7 +346,7 @@ class PrintServerSetup:
             test_data = {
                 "main": "",
                 "second": "",
-                "body": "Integration test from setup script"
+                "title": "Integration test from setup script"
             }
             
             response = requests.post(
