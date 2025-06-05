@@ -16,12 +16,14 @@ import io
 import sys
 
 setting = {
-  "serial_com_port": "COM4",
+  "serial_com_port": "COM3",
   "line_char_length": 42,
   "image_size": 512,
 }
 
-bodyText = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
+bodyText1 = "Future Play is UAL Creative Computing Institute’s inaugural immersive showcase at London Tech Week. Each piece invites participation, creating unique moments where viewers become collaborators, their interaction shaping and transforming the work in real-time."
+
+bodyText2 = "Drawing upon the wide spectrum of art, design, fashion, photography and media disciplines taught at University of the Arts London, our students and researchers are the latest generation of world-class talent taking these interdisciplinary ideas from imagination to reality."
 
 def format_text(text, width=setting['line_char_length']):
   """Formats the input text to fit within a specified width, wrapping lines as necessary. Only where spaces exist."""
@@ -93,9 +95,10 @@ def printProfile(data):
     p.textln(data.title)
     p.text('\n')
     p.set(bold=False, align='left')
-    p.text(format_text(bodyText)+'\n')
+    p.text(format_text(bodyText1)+'\n\n')
+    p.text(format_text(bodyText1)+'\n')
     p.set(align='center')
-    p.qr('https://www.arts.ac.uk/ual', center=True, size=16)
+    p.qr('https://ualshowcase.arts.ac.uk/collection/future-play', center=True, size=10)
     
     p.cut()
 
